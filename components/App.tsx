@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import Head from 'next/head'
 
 import { useTheme } from '@material-ui/core/styles'
@@ -10,11 +10,15 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
-const App = props => {
+type Props = {
+  title: string
+}
+
+const App: FunctionComponent<Props> = props => {
   const { title, children } = props
   const { palette } = useTheme()
 
-  const goBack = () => {
+  const goBack = (): void => {
     if (typeof window !== 'undefined') {
       window.history.back()
     }
@@ -27,18 +31,18 @@ const App = props => {
       </Head>
 
       <CssBaseline />
-      <AppBar position='static' style={{ background: palette.navbar }}>
+      <AppBar position="static" style={{ background: palette.navbar }}>
         <Toolbar>
-          <IconButton edge='start' color='inherit' onClick={() => goBack()}>
+          <IconButton edge="start" color="inherit" onClick={() => goBack()}>
             <ChevronLeftIcon />
           </IconButton>
-          <Typography variant='h6'>{title}</Typography>
+          <Typography variant="h6">{title}</Typography>
         </Toolbar>
       </AppBar>
       <Grid
         container
-        justify='center'
-        alignItems='center'
+        justify="center"
+        alignItems="center"
         style={{ marginTop: '20px' }}
       >
         <Grid item xs={12}>

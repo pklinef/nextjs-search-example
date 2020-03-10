@@ -1,22 +1,25 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { NextPage } from 'next'
 
 import Grid from '@material-ui/core/Grid'
 
 import App from '../components/App'
 import SearchInput from '../components/SearchInput'
 
-const Search = () => {
+const Search: NextPage = () => {
   const router = useRouter()
 
-  const routeToAction = query => router.push(`/results?query=${query}`)
+  const routeToAction = (query: string): void => {
+    router.push(`/results?query=${query}`)
+  }
 
   return (
-    <App title='Search'>
+    <App title="Search">
       <Grid
         container
-        justify='center'
-        alignItems='center'
+        justify="center"
+        alignItems="center"
         style={{ height: '90vh' }}
       >
         <Grid item xs={12}>

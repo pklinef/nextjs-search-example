@@ -1,15 +1,15 @@
-import React from 'react'
-
+import React, { FunctionComponent } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { getIn } from 'immutable'
 
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
-import { getIn } from 'immutable'
+import ErrorMessage from './ErrorMessage'
+import LoadingIndicator from './LoadingIndicator'
 
 const searchByID = gql`
   query SearchByIdDetails($ids: [ID]!) {
@@ -25,27 +25,23 @@ const searchByID = gql`
   }
 `
 
-const LoadingComponent = () => <CircularProgress />
+type Props = {
+  id: string
+}
 
-const ErrorMessage = () => <Typography />
-
-const Details = props => {
+const Details: FunctionComponent<Props> = props => {
   const { id } = props
 
-  const { loading, error, data, refetch } = useQuery(searchByID, {
+  const { loading, error, data } = useQuery(searchByID, {
     variables: { ids: [id] },
   })
 
   if (loading) {
-    return <LoadingComponent />
+    return <LoadingIndicator />
   }
 
   if (error) {
-    return (
-      <ErrorMessage onRetry={refetch} error={error}>
-        Error getting details
-      </ErrorMessage>
-    )
+    return <ErrorMessage>Error getting details</ErrorMessage>
   }
 
   const attributes = getIn(
@@ -59,13 +55,13 @@ const Details = props => {
   }
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth="md">
       <Paper>
         <Grid
           container
-          direction='column'
-          justify='center'
-          alignItems='center'
+          direction="column"
+          justify="center"
+          alignItems="center"
           spacing={2}
         >
           <Grid item xs={12}>

@@ -1,7 +1,5 @@
-import React from 'react'
-
+import React, { FunctionComponent } from 'react'
 import Link from 'next/link'
-
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -13,7 +11,9 @@ import TableCell from '@material-ui/core/TableCell'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
+
+import ErrorMessage from './ErrorMessage'
+import LoadingIndicator from './LoadingIndicator'
 
 const metacardQuery = gql`
   query TextQuery($filter: Json!, $settings: QuerySettingsInput) {
@@ -30,25 +30,28 @@ const metacardQuery = gql`
   }
 `
 
-const LoadingComponent = () => <CircularProgress />
+type PagingProps = {
+  total: number
+  startIndex: number
+  pageSize: number
+  routeToPage: (start: number, size: number) => void
+}
 
-const ErrorMessage = () => <Typography />
-
-const Paging = props => {
+const Paging: FunctionComponent<PagingProps> = props => {
   const { total = 0, startIndex = 1, pageSize = 15, routeToPage } = props
 
   const handleChangePage = (_, n) => {
     const startIndex = n * pageSize + 1
-    routeToPage({ start: startIndex, size: pageSize })
+    routeToPage(startIndex, pageSize)
   }
   const handleChangeRowsPerPage = e => {
     const size = parseInt(e.target.value, 10)
-    routeToPage({ start: 1, size: size })
+    routeToPage(1, size)
   }
 
   return (
     <TablePagination
-      component='div'
+      component="div"
       rowsPerPageOptions={[15, 50, 100]}
       colSpan={12}
       count={total}
@@ -60,10 +63,17 @@ const Paging = props => {
   )
 }
 
-const ResultList = props => {
+type ResultListProps = {
+  query: string
+  pageSize: number
+  startIndex: number
+  routeToPage: (start: number, size: number) => void
+}
+
+const ResultList: FunctionComponent<ResultListProps> = props => {
   const { query = '', pageSize = 15, startIndex = 1, routeToPage } = props
 
-  const { loading, error, data, refetch } = useQuery(metacardQuery, {
+  const { loading, error, data } = useQuery(metacardQuery, {
     variables: {
       filter: {
         type: 'AND',
@@ -77,15 +87,11 @@ const ResultList = props => {
   })
 
   if (loading) {
-    return <LoadingComponent />
+    return <LoadingIndicator />
   }
 
   if (error) {
-    return (
-      <ErrorMessage onRetry={refetch} error={error}>
-        Error: Query Failed
-      </ErrorMessage>
-    )
+    return <ErrorMessage>Error: Query Failed</ErrorMessage>
   }
 
   const { attributes, status } = data.metacards
@@ -98,9 +104,9 @@ const ResultList = props => {
   }
 
   return (
-    <Grid container justify='center' alignItems='center' spacing={2}>
+    <Grid container justify="center" alignItems="center" spacing={2}>
       <Grid item xs={12}>
-        <Typography color='textSecondary'>
+        <Typography color="textSecondary">
           About {status.hits} results ({status.elapsed}
           ms)
         </Typography>
@@ -114,9 +120,9 @@ const ResultList = props => {
               return (
                 <TableRow key={result.id}>
                   <TableCell>
-                    <Link href='/details/[id]' as={url}>
+                    <Link href="/details/[id]" as={url}>
                       <Typography>
-                        <MuiLink href='#'>{result.title}</MuiLink>
+                        <MuiLink href="#">{result.title}</MuiLink>
                       </Typography>
                     </Link>
                   </TableCell>

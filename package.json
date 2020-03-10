@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "babel-plugin-graphql-tag": "^2.5.0",
-    "prettier": "1.19.1"
+    "prettier": "1.19.1",
+    "typescript": "^3.8.3"
   }
 }

@@ -1,7 +1,8 @@
 import React from 'react'
+import { NextPage } from 'next'
 
-const Home = () => {
-  return <main />
+const Home: NextPage = () => {
+  return <body />
 }
 
 Home.getInitialProps = ({ res }) => {
