@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import Head from 'next/head'
 
-import { useTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -16,7 +15,6 @@ type Props = {
 
 const App: FunctionComponent<Props> = props => {
   const { title, children } = props
-  const { palette } = useTheme()
 
   const goBack = (): void => {
     if (typeof window !== 'undefined') {
@@ -31,7 +29,7 @@ const App: FunctionComponent<Props> = props => {
       </Head>
 
       <CssBaseline />
-      <AppBar position="static" style={{ background: palette.navbar }}>
+      <AppBar position="static" style={{ background: 'rgba(15,55,87,1.0)' }}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={() => goBack()}>
             <ChevronLeftIcon />

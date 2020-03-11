@@ -1,8 +1,7 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, Theme } from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+const theme: Theme = createMuiTheme({
   palette: {
-    navbar: 'rgba(15,55,87,1.0)',
     common: {
       black: 'rgba(11, 24, 33, 1)',
       white: 'rgba(255,255,255,1.0)',

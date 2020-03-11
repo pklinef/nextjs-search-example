@@ -3,6 +3,7 @@ import React, { useState, useEffect, FunctionComponent } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import { InputProps as StandardInputProps } from '@material-ui/core/Input/Input'
 
 type SearchInputProps = {
   initialQuery?: string
@@ -17,7 +18,7 @@ const SearchInput: FunctionComponent<SearchInputProps> = props => {
     setQuery(initialQuery)
   }, [initialQuery])
 
-  const queryChange = e => {
+  const queryChange: StandardInputProps['onChange'] = e => {
     setQuery(e.currentTarget.value)
   }
 

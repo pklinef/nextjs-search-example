@@ -40,12 +40,17 @@ type PagingProps = {
 const Paging: FunctionComponent<PagingProps> = props => {
   const { total = 0, startIndex = 1, pageSize = 15, routeToPage } = props
 
-  const handleChangePage = (_, n) => {
-    const startIndex = n * pageSize + 1
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    page: number
+  ): void => {
+    const startIndex = page * pageSize + 1
     routeToPage(startIndex, pageSize)
   }
-  const handleChangeRowsPerPage = e => {
-    const size = parseInt(e.target.value, 10)
+  const handleChangeRowsPerPage: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = event => {
+    const size = parseInt(event.target.value, 10)
     routeToPage(1, size)
   }
 
@@ -115,7 +120,7 @@ const ResultList: FunctionComponent<ResultListProps> = props => {
       <Grid item xs={12}>
         <Table>
           <TableBody>
-            {attributes.map(result => {
+            {attributes.map((result: any) => {
               const url = `/details/${result.id}`
               return (
                 <TableRow key={result.id}>
