@@ -9,6 +9,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
+import styles from './App.module.css'
+
 type Props = {
   title: string
 }
@@ -29,8 +31,8 @@ const App: FunctionComponent<Props> = props => {
       </Head>
 
       <CssBaseline />
-      <AppBar position="static" style={{ background: 'rgba(15,55,87,1.0)' }}>
-        <Toolbar>
+      <AppBar position="static">
+        <Toolbar className={styles.toolbar}>
           <IconButton edge="start" color="inherit" onClick={() => goBack()}>
             <ChevronLeftIcon />
           </IconButton>
@@ -41,7 +43,7 @@ const App: FunctionComponent<Props> = props => {
         container
         justify="center"
         alignItems="center"
-        style={{ marginTop: '20px' }}
+        className={styles.content}
       >
         <Grid item xs={12}>
           {children}
